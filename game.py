@@ -13,7 +13,7 @@ playingGame = False
 # Game class
 class Game():
     def init__(self):
-        self.player = None
+        self.player = {}
 
     # function to start the game and initialize the player
     def startGame(self):
@@ -21,9 +21,9 @@ class Game():
         mainMenu = True
         while mainMenu:
             ### need to store instance of player in self.player somehow, this does not work v 
-            self.menu(self.player)
+            self.menu()
     
-    def menu(self, user):
+    def menu(self):
         # print game menu
         clear()
         draw()
@@ -44,7 +44,7 @@ class Game():
             
         # if user chooses to exit
         elif menuChoice in ['x', 'exit', 'l']:
-            saveGame(user, 'load.json')
+            saveGame(self.player, 'load.json')
             print('Goodbye!')
             quit()
     
@@ -131,24 +131,21 @@ class Game():
             crime = input('\n> ').strip().lower()
 
             # if the crime is a digit and between 1 and the length of the crime list
-            if crime.isdigit() and 1 <= int(crime) <= len(crimeList):
+            if crime.isdigit() and int(crime) >= 1 and int(crime) <= len(crimeList):
                 
                 # convert user's choice into index
                 crimeIndex = int(crime) - 1
                 crimeChoice = crimeList[str(crimeIndex)]
-
-                # print the title of the crime user chose
-                print(f'{bold}{crimeChoice["title"]}{end}')
                 
                 # print crime menu options, have player choose their crime, and return their character's name
-                ### not working as intended when try to hit back from crime menu
                 charName = crimeMenu(crimeChoice)
-
+                '''
                 # based on crime they chose, instantiate the player object
                 player = self.assignPlayer(charName, crimeIndex)
 
                 print(player.name)
                 enter()
+                '''
 
             # invalid input
             else:
@@ -165,6 +162,10 @@ def printCrimeList():
 def crimeMenu(crimeChoice):
     clear()
     printCrimeList()
+    # print the title of the crime user chose
+    print(f'{bold}{crimeChoice["title"]}{end}')
+
+    # print user's options
     print(f'\n{bold}Back | {red}Skills | {orange}Items | {yellow}Implications | {green}Choose This Crime |{end}')
 
     # loop for choosing from crime menu
