@@ -20,7 +20,6 @@ class Game():
         # when player begins game, mainMenu is true
         mainMenu = True
         while mainMenu:
-            ### need to store instance of player in self.player somehow, this does not work v 
             self.menu()
     
     def menu(self):
@@ -36,9 +35,13 @@ class Game():
 
         # if user chooses new game
         if menuChoice in ['1', 'n', 'new', 'new game']:
-            self.newGame()
+            # assign Player object to self.player
+            self.player = self.newGame()
+            # save new game
+            saveGame(self.player, 'load.json')
         
         # if user chooses load game
+        ### NEXT STEP: load game
         elif menuChoice in ['l', 'load', 'load game']:
             pass
             
@@ -53,7 +56,7 @@ class Game():
         introScene()
 
         # user chooses their crime/class
-        self.createPlayer()
+        return self.createPlayer()
 
     @staticmethod
     def assignPlayer(name, index):
@@ -68,7 +71,7 @@ class Game():
             player.addToInv(rations, 2)
             player.addToInv(smallWaterskin, 1)
 
-            return player
+            # return player
         
         # rebellion leader
         elif index == 1:
@@ -78,7 +81,7 @@ class Game():
             player.addToInv(rations, 2)
             player.addToInv(smallWaterskin, 1)
 
-            return player
+            # return player
 
         # cannabis thief
         elif index == 2:
@@ -88,7 +91,7 @@ class Game():
             player.addToInv(rations, 2)
             player.addToInv(smallWaterskin, 1)
 
-            return player
+            # return player
 
         # second child
         elif index == 3:
@@ -98,7 +101,7 @@ class Game():
             player.addToInv(rations, 2)
             player.addToInv(smallWaterskin, 1)
 
-            return player
+            # return player
 
         # falsely accused
         elif index == 4:
@@ -108,7 +111,7 @@ class Game():
             player.addToInv(rations, 2)
             player.addToInv(smallWaterskin, 1)    
 
-            return player
+            # return player
 
         ### change this to be error handling
         else:
@@ -139,13 +142,11 @@ class Game():
                 
                 # print crime menu options, have player choose their crime, and return their character's name
                 charName = crimeMenu(crimeChoice)
-                '''
-                # based on crime they chose, instantiate the player object
+                
+                # based on crime they chose, instantiate the player object and store in player variable
                 player = self.assignPlayer(charName, crimeIndex)
-
-                print(player.name)
-                enter()
-                '''
+                
+                return player
 
             # invalid input
             else:
@@ -201,6 +202,7 @@ def crimeMenu(crimeChoice):
             enter()
             break
 
+@staticmethod
 def saveGame(user, filename):
     try:
         with open(filename, "wb") as file:
