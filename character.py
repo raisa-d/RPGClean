@@ -37,7 +37,7 @@ class Player(Character):
             self.inv = inv
 
         # track exhaustion level
-        self.exhaustion_level = 0 
+        self.exhaustionLevel = 0 
         # handles dodging state for Battle
         self.is_dodging = False
     

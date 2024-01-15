@@ -5,6 +5,7 @@ from cutscene import introScene
 from crime import crimeList
 from character import Player
 from item import smallWaterskin, multipurposeKnife, wristband, rations, throwingKnives, shiv, dagger, wrench
+from events import goToEarth
 
 # booleans for whether game is running/game is being played
 gameRunning = True
@@ -20,7 +21,16 @@ class Game():
         # when player begins game, mainMenu is true
         mainMenu = True
         while mainMenu:
-            self.menu()
+            # if menu returns true, break out of mainMenu loop and start play loop
+            if self.menu():
+                mainMenu = False
+                playingGame = True
+        
+        while playingGame:
+            ### for testing purposes -- delete later
+            print('You are in the game loop')
+            goToEarth(self.player)
+            break
     
     def menu(self):
         # print game menu
@@ -39,14 +49,28 @@ class Game():
             self.player = self.newGame()
             # save new game
             saveGame(self.player, 'load.json')
+            
+            ### put go to earth sequence here
+            ### autosave again after go to earth(?)
+            
+            return True
         
         # if user chooses load game
-        ### NEXT STEP: load game
-        elif menuChoice in ['l', 'load', 'load game']:
-            pass
+        elif menuChoice in ['l', 'load', 'load game', '2']:
+            self.player = loadGame('load.json')
+            
+            # error handling
+            if self.player is not None:
+                print(f'Welcome back, {self.player.name}')
+                enter()
+                ### change this -- maybe make play true and start a play loop?
+                return True
+            else:
+                print('Corrupt save file or no file found!')
+                enter()
             
         # if user chooses to exit
-        elif menuChoice in ['x', 'exit', 'l']:
+        elif menuChoice in ['x', 'exit', 'l', '3']:
             saveGame(self.player, 'load.json')
             print('Goodbye!')
             quit()
@@ -202,7 +226,6 @@ def crimeMenu(crimeChoice):
             enter()
             break
 
-@staticmethod
 def saveGame(user, filename):
     try:
         with open(filename, "wb") as file:
@@ -215,9 +238,9 @@ def saveGame(user, filename):
 def loadGame(filename):
     try:
         with open(filename, "rb") as file:
-            loaded_player = pickle.load(file)
+            loadedPlayer = pickle.load(file)
         print(f'{green}>>loaded successfully<<{end}')
-        return loaded_player
+        return loadedPlayer
     except FileNotFoundError:
         print(">>no saved game found<<")
         return None
