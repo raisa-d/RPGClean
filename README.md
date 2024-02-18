@@ -4,7 +4,6 @@ The 100 Role Player Game is a text-based role-playing game set in the world of "
 
 ## Table of Contents
 - [Development Status](#development-status)
-- [Installation](#installation)
 - [Usage](#usage)
 - [Features](#features)
 - [How to Play](#how-to-play)
@@ -15,13 +14,6 @@ The 100 Role Player Game is a text-based role-playing game set in the world of "
 
 **This repository is currently dedicated to re-doing the code in a bit of a more modular/best practice way.**
 As of 1/19/2024, the game is in the early stages of development. Key functionalities such as the effects of Tek and other items are being fleshed out & implemented. In-game items and storyline flowchart are also in early stages of development. Code sections marked with "###" indicate areas that are still under construction. 
-
-## Installation
-
-To get started, follow these steps:
-
-1. Clone this repository to your local machine.
-2. Install Python 3 along with the required libraries: `random`, `os`, `pickle`, and `time`.
 
 ## Usage
 - Choose your character's crime that suits your playstyle.
